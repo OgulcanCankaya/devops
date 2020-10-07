@@ -1,0 +1,17 @@
+Supports CI-CD-CD
+
+Supports 
+Visual Studio Team Services - source control and CI
+Jenkins - CI for Java apps
+Con. Deployment Triggers - automated deployment triggers integrated with CI
+
+Orchestration
+Azure Container Registry - repo of container images
+Azure Container Service - Kubernetes orchestration
+Azure Web Apps - Cloud hosting for web apps integrated with DevOps pipeline
+
+Monitoring
+Azure Insights - APM, diagnostics and analytics. Supports machine learning.
+
+FaaS/Serverless
+Azure Functions - autoscaling, serverless

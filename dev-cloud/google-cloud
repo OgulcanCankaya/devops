@@ -1,0 +1,40 @@
+Google App Engine
+PaaS - Deploy the code, don't worry about the rest.
+Built-in support for microservices.
+Out-of-the-box autoscaling
+Certain configurations can be considered serverless
+
+Google Compute Engine
+IaaS - Deploy and orchestrate clusters of VMs ON gOOGLE
+Built-in orchestration
+Works with app engine
+Can be managed bey other tools like Ansible, Salt, Puppet and Chef
+
+Google Cloud Functions
+
+FaaS/Serverless
+Deploy FaaS functions within minutes
+
+Google Cloud SDK
+Makes it easy to interect with GCP APIs
+
+Stackdriver
+GCP monitoring solution
+Monitoring, logging and diagnostics for GCP services.
+Works with AWS
+
+Cloud Deployment Manager
+Declarative configuration for GCP 
+IaaC and automated deployment
+Yaml-based
+
+Google Kubernetes Engine
+Orchestration on GCP with Kubernetes
+Do CI with Jenkins on Kubernetes Engine
+
+
+
+
+
+
+

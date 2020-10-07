@@ -1,0 +1,46 @@
+Cloud - remote servers on the net that offer services 
+in place of locally-hosted solutions. 
+
+DevOps culture and practices are very useful in cloud
+
+Traditional Non-Cloud Stack
+
+Applications
+Data
+Runtime
+Middleware
+O/S
+Virtualisation
+Servers
+Storage
+Networking
+
+Cloud Stack
+
+IaaS (Infrastructure) - cloud provider gives you a bare minimum of an OS - Until OS
+eq. Amazon ec2
+eq. Microsoft Azure
+
+PaaS (Platform) everything below the application and data layers is abstracted.
+eq. AWS Elastic Beanstalk
+eq. Heroku
+
+SaaS (Software) - everything is managed. Consume application.
+eq. G-mail
+eq. Microsoft Office 365
+
+FaaS (Function) [Serverless] 
+Everything is abstract. You never need to think about the servers or instances or etc.
+eq. AWS Lambda
+eq. Azure functions
+eq. Google Cloud Functions
+
+
+
+
+
+
+
+
+
+

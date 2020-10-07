@@ -1,0 +1,25 @@
+Amazon EC2 (Elastic Compute Cloud)
+IaaS - Easily scalable - control over your cloud infrastructure
+Integrates with tons of tools.
+
+AWS Elastic Beanstalk
+PaaS - load balancing and autoscaling
+
+AWS CodeBuild - CI 
+AWS CodeDeploy - CD 
+AWS CodePipeline - full code pipeline from build to deploy
+AWS CodeStar - integrates all parts of the process with management tools 
+	and JIRA issue tracking
+
+IaC (infra as code)
+CloudFormation - Stack templating engine, YAML or Json based
+OpsWorks - IaC with Chef
+
+Serverless
+AWS Lambda - run serverless functions 
+
+Monitoring
+Amazon Cloudwatch - track matrics and logs, set alarms and 
+	automate responses to monitoring data
+
+
