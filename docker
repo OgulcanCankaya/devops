@@ -1,0 +1,234 @@
+DOCKER BASICS
+
+Docker temel olarak 3 parçadan oluşan ve uygulama geliştirme,konteynerleştirme ve çalıştırma platformudur.
+
+Temelde Docker Engine yer alır. 
+
+# Daemon Process : Direkt olarak kullanıcı kontrolünde çalışmayan, 
+# arka planda hizmet veren işlemlerdir. Sistem çalışma zamanı boyunca çalışabilirler. 
+# Sistem zamanı boyunca çalışan daemon işlemlere örnek olarak 
+# crond,sshd,httpd ve nfsd işlemleri verilebilir.
+
+Docker engine belli başlı 3 elemandan oluşan bir client-server uygulamasıdır.
+
+Server: dockerd daemon servisinin çalıştığı bir server.
+API: Programların server ile konuşmalarına yarayan ve 
+    server tarafına komutları yollayan bir REST API servisi.
+CLI: Client tarafında API servisinin kullanımı için kullanılan bir CLI.
+
+Yukarıdaki elemanlar sayesinde konteynerler, konteyner imajları, 
+veri bölümlendirmeleri ve ağ yapısı yönetilebilir.
+
+Docker mimarisi client-server mimarisine dayanmaktadır.
+
+Docker host üzerinde bulunan daemon API isteklerini sürekli dinler 
+ve docker objelerini bu isteklere bağlı olarak yönetir.
+
+Docker client "docker run" gibi komutları API isteği şeklinde dockerd servisine iletir.
+Kullanıcı tarafının etkileşim noktasıdır.
+
+Docker registry docker imajlarını tutar. Manuel olarak belirtilmediği sürece 
+DockerHub üzerindeki imajlarla etkileşim kurar.
+
+İmajlar aslen okunabilir konteyner oluşturma komut taslağı olarak çalışır.
+Dockerfile üzerinde belirtilen değişiklikler ve spesifikasyonlar ile çalışan 
+build operasyonları sonrasında ortaya çıkan imajlar ve halihazırda 
+DockerHub üzerinde bulunan public imajlar örnek olarak gösterilebilir.
+
+EQ.
+"docker run -i -t ubuntu /bin/bash"  komutunu örnek alacak olursak,
+ubuntu imajı lokal registry üzerinde bulunmuyorsa DockerHub üzerinden indirilir.
+Yeni bir konteyner oluşturulur. Docker konteyner üzerinde bir read-wirte dosya sistemi oluşturur.
+Herhangi bir network interface belirtmediğimiz için 
+Docker bizim yerimize yeni bir network oluşturur.
+Docker konteyneri başlatır ve /bin/bash komutunu çalıştırır.
+-i ve -t parametreleri sayesinde konteynerimiz interaktif ve terminalimize bağlı çalışır.
+exit komutuyla konteynerden ayrıldığımızda ise konteyner durdurulur ancak imajı silinmez.
+
+Docker izole bir çalışma çevresi oluşturmak için namespaces denen bir teknoloji kullanır.
+Bu namespaces katmanında her konteyner için pid,net,mnt gibi değerler bulunur.
+
+DOCKERFILE
+
+Docker imajlarını otomatik olarak üretebilmek için Dockerfile olarak bilinen dosyaları kullanır.
+Dockerfile aslen client tarafındaki kullanıcının kullanabileceği ve 
+konteyner konfigurasyonunda ihtiyaç duyabileceği her türlü komutu ve bilgiyi içeren bir dosyadır.
+docker build komutuyla kullanıldığında parametre kullanımına gerek kalmadan 
+otomatik konteyner oluşturulabilir. 
+
+Format:
+
+INSTRUCTION arguments
+
+EQ.
+	FROM busybox
+	ENV FOO=/bar
+	WORKDIR ${FOO}   # WORKDIR /bar
+	ADD . $FOO       # ADD . /bar
+	COPY \$FOO /quux # COPY $FOO /quux
+
+docker build -f /path/to/Dockerfile . şeklinde çalıştırılabilir.
+
+Docker çevre değişkenleri 
+
+ADD  "ADD hom* /mydir/" hom ile başlayan herşeyi /mydir altına ekler.
+Add komutu yeni dosyaların kopyalanmasında kullanılır.
+Formatı ADD [--chown=<user>:<group>] <src>... <dest> şeklindedir.
+Remote veya local <src> dosyalarını imajın <dest> dosya yoluna ekler.
+
+COPY "COPY hom* /mydir/" 
+Add ile copy arasındaki fark add'in remote <src> üzerinden de çalışabilmesidir.
+
+ENV "ENY MYNAME="John" environment değişkenleri tanımlamamıza yardımcı olur.
+"ENV MYNAME="John" \ 
+     MYCAT="fluffy" " şeklinde de kullanılabilir. <key>=<value> çiftleri şeklinde çalışır.
+
+EXPOSE "EXPOSE 80" veya "EXPOSE 80/udp" şeklinde çalışır. 
+	<port>/<protocol> formatına sahip değişkenler kullanır.
+	docker build -p 80:80/tcp ... komutu ile benzerliği anlaşılabilir. 
+
+FROM etiketi yeni bir build ortamı kurar ve kullanılabilir bir Dockerfile'ın başında yer alır.
+	eq. FROM busybox:ver_1.5
+	
+	ARG ve FROM etkileşimi burada anlaşılması gereken bir durumdur.
+	eq.	ARG CODE_VER=latest
+		FROM base:${CODE_VERSION}
+	FROM etiketinden sonra tanımlanmış bir ARG build aşamasının dışında tutulur 
+	ve ilk FROM etiketinden sonra kullanılamaz.
+
+LABEL Bu tanımlama imaja metadata ekler. <key>=<value> formatına sahiptir.
+	eq.	LABEL "com.example.vendor"="ACME Incorporated"
+		LABEL version="1.0"
+	docker image inspect myimage çıktısına bu LABEL tanımları eklenir.
+
+STOPSIGNAL		Bu komut konteynerin exit aşamasında kullanılacak sinyali temsil eder. 
+			9/15 gibi değerler alabilir. 
+
+
+USER	Adından da anlaşılabileceği gibi konteynerin çalıştırılma zamanında kullanacağı 
+	<user>:<group> değerlerinin belirlenmesinde rol oynar.
+
+VOLUME	Bu komut docker için bir mount point tanımlar 
+	ve dosya dizin işlemlerinin içerisinde yapılmasını sağlar.
+	eq.	RUN echo "hello world" > /myvol/greeting
+		VOLUME /myvol        
+	>>> Böylece greeting dosyası /myvol üzerine kopyalanır.
+
+WORKDIR	"WORKDIR $PATH" şeklinde çalışır. 
+	RUN, CMD, COPY ve/ya ADD komutlarının çalıştırma dizinlerini belirler.
+	eq.	WORKDIR /a
+		WORKDIR b
+		WORKDIR c
+		RUN pwd
+		çıktısı /a/b/c şeklinde olacaktır.
+
+ONBUILD	Bu komut imaja bir trigger ekler.
+	ONBUILD ADD . /app/src
+	ONBUILD RUN /usr/local/bin/python-build --dir /app/src
+	
+	şeklinde kullanımları mevcuttur ancak ONBUILD ONBUILD gibi bir kullanıma izin verilmez. 
+	FROM ve/ya MAINTAINER komutlarını tetiklemeyebilir.
+
+RUN	"RUN <command>" formatına sahiptir. 
+	eq. RUN /bin/bash -c 'source $HOME/.bashrc; echo $HOME'
+	şeklindeki kullanımın RUN ["/bin/bash", "-c", "echo hello"] şeklinde 
+	JSON formatında yazılması da mümkündür ve 
+	Dockerfile içerisinde kullanılması tavsiye edilir.
+	
+CMD	Bu komutun kullanım amacı çalışan bir konteyner için default tanımlamaktır.
+	eq.	CMD echo "This is a test." | wc -
+
+MAINTAINER	Üretilen imajın "Author" alanını doldurur.
+		eq. LABEL maintainer="SvenDowideit@home.org.au" ile eşdeğer kullanılabilir.
+
+ENTRYPOINT	Bu komut çalıştırılabilir haldeki bir konteynerin konfigurasyonunda rol oynar.
+
+şeklinde sıralanabilir.
+
+
+DOCKER NETWORKS
+Docker kurulum esnasında otomatik olarak 3 temel network ekliyor.
+Aynı zamanda 2 adet de driver desteği sağlıyor. bridge ve overlay.
+
+Bir networke ait bilgiler "docker network inspect <network>" komutuyla bastırılabilir.
+
+bridge network: Aksi belirtilmedikçe konteynerler bu networke dahil ediliyor.
+Bridge ağları genellikle iletişim kurması gereken ve 
+standalone çalışan konteynerler için kullanılmaktadır.
+
+--------------------------------------------------------------------------
+
+Driver listesi
+
+host network: Konteynerlerin host makine ile yaşadığı network izolasyonunun 
+kırılması için kullanılabilir ve konteyner host makinenin ağında çalışır.
+
+overlay network: overlay ağı birden fazla docker daemon servisini 
+birbirine bağlar ve swarm servislerinin birbirleriyle olan iletişimini kurar.
+Bu şekilde işletim sistemi seviyesindeki routing işlemlerine gereksinim ortadan kalkar.
+
+macvlan network: Konteynerlere MAC adresi ataması yapmak ve 
+onları ağ üzerinde fiziksel bir cihaz olarak göstermek için kullanılır. 
+Legacy uygulamalar ile çalışırken bu network driver'ını kullanmak bazen en iyi seçim olabilir.
+
+none network: Konteynerin ağ bağlantılarını koparmak için yapılır. 
+Custom network driver'lar ile çalışılaması durumunda kullanılır.
+
+--------------------------------------------------------------------------
+
+"docker network disconnect bridge test-container" komutuyla 
+test-container bridge network'den çıkarılır.
+
+"docker network create -d bridge my_bridge" 
+komutuyla da my_bridge adında ve bridge driver ile çalışan bir network kurulabilir. 
+
+Bir konteyneri basşlatırken belli bir networke eklemek için 
+--net=<network_adı> flag'i kullanılabilir.
+
+Aynı networkteki konteynerler içerisinden shell yardımıyla diğer konteynerlere 
+"ping web/db" şeklinde ping atılabilir.
+NOT!: Bu işlem için konteynerlerin "docker network create myNetwork" 
+komutuyla oluşturulmuş olan yeni network üzerinde yer alıyor olmaları gerekmekte.
+
+IP kullanılarak atılan pingler aynı networkte olmayan konteynerler için 
+anlam taşımayacak ve %100 paket kaybı ile sonuçlanacaktır. 
+
+DOCKER-COMPOSE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
