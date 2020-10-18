@@ -409,3 +409,7 @@ Version:Compose dosyası versiyonu. Bazı ayarlar bu versiyona bağlı olarak ç
 
 Bu docker-compose versiyon 3 için düzenlenmiştir.
 
+
+
+Yukarıda - karakterleriyle ayrılan kısımdaki docker-compose dosyasının ne yaptığını 
+okuyarak sesli olarak birine anlatmaya çalışın. Faydası olacağına eminim.
