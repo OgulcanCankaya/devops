@@ -195,40 +195,217 @@ anlam taşımayacak ve %100 paket kaybı ile sonuçlanacaktır.
 
 DOCKER-COMPOSE
 
+Docker-compose çoklu-konteyner uygulamaları için kullanılan bir araçtır.
+YAML formatında yazılmış bir dosya ile uygulama servislerinin konfigürasyonunda rol oynar.
+
+Uygulamaların dockerfile konfigürasyonlarını tanımlamanız ve 
+servis konfigürasyonlarını docker-compose.yml dosyasında barındırmanız halinde 
+herhangi bir host üzerinde proje bazlı çalışan ve birden çok konteyner içeren
+projelerinizi kolaylıkla çalıştırabilirsiniz.
+
+Örnek bir docker-compose.yml...
+
+```
+version: "3.8"
+services:
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379"
+    networks:
+      - frontend
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  db:
+    image: postgres:9.4
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - backend
+    deploy:
+      placement:
+        max_replicas_per_node: 1
+        constraints:
+          - "node.role==manager"
+
+  vote:
+    image: dockersamples/examplevotingapp_vote:before
+    ports:
+      - "5000:80"
+    networks:
+      - frontend
+    depends_on:
+      - redis
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+      restart_policy:
+        condition: on-failure
+
+  result:
+    image: dockersamples/examplevotingapp_result:before
+    ports:
+      - "5001:80"
+    networks:
+      - backend
+    depends_on:
+      - db
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  worker:
+    image: dockersamples/examplevotingapp_worker
+    networks:
+      - frontend
+      - backend
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels: [APP=VOTING]
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+        window: 120s
+      placement:
+        constraints:
+          - "node.role==manager"
+
+  visualizer:
+    image: dockersamples/visualizer:stable
+    ports:
+      - "8080:8080"
+    stop_grace_period: 1m30s
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints:
+          - "node.role==manager"
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  db-data:
+
+```
+	Şeklinde olabilir.
+
+Version:Compose dosyası versiyonu. Bazı ayarlar bu versiyona bağlı olarak çalışmaktadır.
+	Services:Birlikte başlatılacak konteynerler için listeleme referansı görevi görür.
+		<service_name>: Herhangi bir isim taşıyabilir. İmaj vb. detayları zaten aşağıda.
+			
+			Build:	Sadece bir dizin olarak bahsedilebilir veyahutta aşağıdaki
+					detaylarla başlatılabilir.
+				Context: ./dizin/yolu/vb/ Build işleminin gerçekleşeceği dizin.
+				Dockerfile: Alternatif dockerfile bilgisi bulunur.
+				Args:	Sadece build anında var olan ve dikkate alınan 
+						argümanlar oluşturulması için kullanılır.
+					- <args_name>=<args_value> 
+							-- boolean değerler dahi alabilir  
+				Cache_from: Docker engine için cache değerleri.
+				Labels: Ortaya çıkan imaja metadata eklemeye yarar.
+						Dockerfile içerisindeki formata yakındır.
+				Network:Konteyneri belirli bir networke dahil etmek 
+						için kullanılabilir.
+				Shm_size:Bu build esnasında /dev/shm üzerinde yer alan
+						shared memory oranını belirler. '2gb'/1000000
+							gibi değerler alabilir.
+				Target:Dockerfile içerisinde belirtilen STAGE ayarlarıyla
+						build alır.
+					<stage_name> eq. prod
+			
+			Cap_add/drop: Capability add-drop olarak çalışır. Konteyner spesifikdir.
+			
+			Command: Default gelen command'in üstüne yazar.
+			
+			Configs: Adından da anlaşılacağı gibi belirli config dosyalarına
+					erişim sağlar. YAML listelemesi ile verilir.
+					Uzun syntax sahibi olan versiyonu detaylı hareket sağlar.
+			
+			Container_name: Custom konteyner ismi belirlemenizi sağlar.
+			
+			Depends_on:Kendisinden öncebaşlatılması gereken konteynerler 
+					olması halinde kullanılır ve bir queue oluşturur.
+			
+			Deploy: Deploy spesifik ayar belirlemeye yarar.
+				Replicas: Aynı anda çalışan konteyner sayısı.
+			
+			Image: Konteynerin başlatılacağı imajın belirlenmesi.
+				: <imaj_adı>   eq:  image: ubuntu:18.04
+			
+			Logging: Log yapısı için konfigürasyon başlangıcı.
+				driver: syslog/none/json-file değerleri alabilir 
+						ve bir loging driver belirtir.
+				options:
+					syslog-address: "tcp://192.168.0.42:123"
+					max-size: "200k"
+					max-file: "10"
+			
+			Network_mode: bridge/host/none/"service:[service_name]" 
+						şeklinde değerler alabilir.
+			
+			Pid: "host" değerini alması halinde pid adres uzayını host makineden 
+				kullanarak kendisine 'fiziksel' bir pid edinir.
+			
+			Ports: Kullanılacak portların expose sıralamasına göre yazılması için 
+				kullanılabilecek listeleme ile kullanılabilen bir listedir. 
+				-p parametresi sonrası verilebilen "3000:6600" şeklindeki 
+					değerleri burada sıralı liste olarak alır ve kullanır.
+			
+			Restart: "no" / always / on-failure / unless-stopped şeklinde 
+					değerler alır. Konteynerin tekrar başlatılma 
+					durumunu niteler.
+			Networks:Konteynerin katılacağı ağların listesidir.
+			Volumes: Kullanılacak disk alanının belirtilmesi işine yarar. 
+					En güzel öğrenimi örnek üzerindendir.
+
+				"""
+				volumes:
+					- type: volume
+						source: mydata
+						target: /data
+						volume:
+							nocopy: true
+						- type: bind
+						source: ./static
+						target: /opt/app/static
+				"""   Buradaki kullanım sonrasında konunun 
+						anlaşılmış olmasını umuyorum.
+
+	Networks:Top-level kısımda yer alan network anahtarı yaratılacak 
+			networkleri belirlemenizi sağlar. 
+		https://docs.docker.com/compose/compose-file/#network-configuration-reference 
+			Referansı bırakmamın sebebi benim anlatışımın 
+			bu konu için yeterli olmayacağı gerçeği.
+	Volumes:
+		<vol_name>:
+			Driver: Default olan değeri local'dir. Kullanılamayacak durumdaki 
+				bir driverın verilmesi halinde docker-compose hata verecektir.
+			Driver_opts: Key-value şeklinde belirtilen options listesi.
+				Type: "nfs"
+				O: "addr=10.40.0.199,nolock,soft,rw"
+				Device: ":/docker/example"
+			External: Eğer "true" değer verilirse belirtilen Volume ayarlarına 
+				sahip bir volume'un halihazırda var olduğunu docker-compose 
+				esnasında yaratılmasının gerekli olmadığını belirtir.
+			Name: Bu volume için custom bir isim beliriememize yarar.
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Bu docker-compose versiyon 3 için düzenlenmiştir.
 
