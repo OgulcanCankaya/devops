@@ -1,0 +1,65 @@
+PostgreSQL bir veri tabanı.
+Kendisini tanıtırken ram yönetimindeki flag değişimi, buffer manager black-white query olaylarına girmeyeceğim. 
+Basit olaylardan bahsedeceğim. 
+
+Postgres'in adı Postgre değil Postgresve PostgreSQL'dir. Servis kullanıcısı olarak kullanıldığında postgres, servis adı olarak ise postgresql olarak kullanılır.
+
+Postgres'in database bazında veri sınırı yoktur. 12 GB büyüklüğündeki bir sql dump'ını import etmek için yine 12 GB alana ihtiyacınız olması dışında bir sorun yok.
+
+Postgres kullanımı esnasında bağlanılan kullanıcıya göre veritabanlarına yetkiler verebilir kullanıcı bazında verdiği yetkileri export-import işlemlerinde önemlidir.
+
+Postgres kullanımda sıklıkla kullanılan internal komutlara internetten kolayca erişebilirsiniz ancak bazılarına yine de bakalım.
+
+Önbilgiler:
+	Schema : Bir namespace olarak görev alırlar. Tablolar,index'ler ve veri tipleri gibi veritabanı objelerini tutarlar.Veritabanlarını organize etmek için kullanılırlar.
+	Tablo : Veritabanının belirli özellik veya görevlerine bağlı olarak birbirinden ayrılmış birbirleriyle ilişkili veya ilişkisiz olabilirler.
+	View : Veritabanında sıklıkla ulaşılan verileri hızlıca görüntülemek veya erişmek için kullanılabilen tanımlardır. 
+
+Postgres genelinde \ karakteri temel komutlarda sıklıkla kullanılmaktadır. Aynı şekilde + son eki de detaylı anlamındadır, unutulmasın.
+\l -> veritabanlarını listeler  \l+ aynısının detaylısı gibi gibi...
+
+\l -> veritabanları ve bilgileri
+\c dbname user -> veritabanına user kullanıcısıyla bağlanmayı sağlar
+\dt -> describe tables
+\d tableName -> belirli bir table detaylarını getirir.
+\dn -> schema'ları listeler
+\dv -> view'ları listeler
+	Basitçe \d ön eki "describe" ile ilişkilendirilebilir ve amacı da "describe" olarak düşünülebilir.
+\du -> kullanıcıları ve rollerini listeler
+\g -> bir önceki komutu tekrarlamaya yarar ancak bazı terminallerde aynı işi yukarı yön oku ile de yapabiliyoruz.
+\i fileName -> fileName dosyası içerisindeki komutların sırasıyla işletilmesi için kullanılır. 
+
+Bağlanma komutları
+psql -> postgresql'e şu anki kullanıcınız ile bağlanmaya yarar
+-p parametresi ile default port haricinde çalışan bir veritabanına bağlanabilirsiniz. Default parametre : 5432
+-h parametresi ile hostname veya ip adresi verebilir ve bağlanmak istediğiniz host'u belirtebilirsiniz.
+-U parametresi ile hangi kullanıcı ile bağlanacağınızı seçebilirsiniz ancak bunun için veritabanında bağlandığınız 
+	kullanıcı ile eşit veya yüksek seviyede yetkili  (superuser) olmanız gerekir. 
+-d parametresi ile bağlanmak istediğiniz veritabanını belirtebilirsiniz
+-W parametresi kullnarak parola sorulmasını isteyebilirsiniz. (Kim ister bilmiyordum taa ki pg_hba.conf düzenleyene kadar.)
+
+Özetle:
+	psql -U post -h 192.168.1.1 -p 5435 -d dataBase -W 
+		-> komutuyla post kullanıcısı ile 192.168.1.1 makinesindeki dataBase veritabanına 5435 portu üzerinden parola kullanarak bağlanabiliriz. 
+
+Komut satırından hızlı kullanım gerektirebilen komutlar
+pg_dump -d dataBase -f dataBase.sql -> -f parametresi sonrasında gelen dosya ismine dataBase veritabanını kopyalar.
+Aynı veritabanı çıktısını başka makineye veya veritabanına eklemek için.
+psql -d dataBase2 -f dataBase.sql komutunu kullanabiliriz. Böylece başka bir makinede de olabilen dataBase2 dataBase veritabanının bilgilerine hakim olur.
+
+-O parametresi pg_dump ile kullanıldığında Ownership (sahiplik) bilgilerini es geçer.
+-F çıktı formatını belirtir.
+	t: tar - arşiv
+	p: plain-text
+
+pg_dumpall PostgreSQL veritabanı yönetim sistemi üzerindeki bütün veritabanlarının dump çıktısını alır.
+pg_dumpall -U postgres ile kullanıldığında postgres kullanıcısı postgreSQL sistemi üzerinde superuser olduğu için sorunsuzca bütün veritabanlarını yedekler.
+--schema-only
+--roles-only
+--tablespaces-only parametreleri ile sadece adı geçen bilgilerin çıktısını verir.
+
+User ve Privilege Yönetimi
+
+
+
+
