@@ -35,7 +35,7 @@ INSERT
 	INSERT INTO customer DEFAULT VALUES; sorgusu tabloya oluşturulma sırasında atanmış temel değerleri ekleyecektir. Temel değer belirtilmediğinde ise "NULL" değeri atanacaktır.
 	INSERT INTO customer (name, address, city) SELECT name, address, country FROM oldCustomers; sorgusu bizim için oldCustomers tablosundaki değerleri customer tablosuna atayacaktır. 
 		Bu şekilde de SELECT sorgusundan dönen yanıtların INSERT operasyonuna eklenmiş olduğunu görebiliyoruz.
-	
+
 UPDATE
 	UPDATE customer SET address = 'Mars' WHERE id = 5 ; buradaki sorguda yukarıda bahsedilen primary anahtarlardan yararlanılarak primary anahtarı "5" olan kaydın address alanını "Mars" olarak güncelledik.
 	UPDATE customer SET x=y, h=g, f= NULL WHERE id = 5 ; burada ise özel bir veri olan NULL'u yani hiçliği kullandık ve birden fazla alanı aynı zamanda düzenledik.
