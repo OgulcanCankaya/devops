@@ -1,0 +1,48 @@
+SQL nedir nasıl kullanılır ?
+SQL ilişkisel veritabanı yönetiminde kullanılan bir dildir.
+İlişkisel veritabı birbirleri arasında bağlantıları bulunan tablolara sahip veritabanlarına denir.
+Column-sütun: Objelerin sahip olduğu veri tipleri olarak düşünebiliriz.Field olarak da adlandırabiliriz.
+Sütunlardan bir tanesi satırları-kayıtları birbirinden ayırabilmek için genellikle eşsiz-unique bir anahtar içerir.
+Bazen tablolar arasında bağlantılar kurmamız ve belirli field'ları başka bir tablo ile bağlantılı olarak kullanmamız gerekebilir.
+Bu tarz durumlarda foreign-key'leri kullanırız. FK'ler bizlere başka tablolardaki Primary-unique öncül-eşsiz key'lere referans yapmamıza yardımcı olurlar.
+
+SELECT
+	SELECT anahtarının asıl amacı adından da anlaşılacağı gibi belirli verileri seçmektir.
+	SELECT 'Hello, World';  --> bu komutun geri döndüreceği sonuç 'Hello, World' tablosundan 'Hello World' olacaktır.Tablo bizde var olmasa dahi.
+		Bunun sebebi ise SQL'in SELECT anahtarının yanında verilen 'Hello World'ü bir satır olarak almış olması olacaktır
+	SELECT 'Hello' AS Result; --> ise bize Result tablosundan 'Hello'yu getirecektir.
+	SELECT * FROM Country; --> Gerçek hayat kullanımlarından bir tanesi olan SELECT * ise FROM anahtarından sonra gelen tablo adı içerisindeki bütün satırları getirecektir.
+		FROM anahtarı ile verinin nereden alınmasını istediğimizi belirtebiliriz.
+	SELECT * FROM Country ORDER BY Name; --> Burada ORDER BY anahtarı ile ise belirli Field'lara göre sıralama yaparak sonuçlarımızı alabilriiz.
+		Burada * aslen regex ifadelerindeki gibi "her biri" anlamını taşır. Nitekim * yerine Name,Code,etc kullanırsanız tablonun içerisindeki Name,Code,etc field'larını geri dönecektir.
+		Alias (takma isim) kullanmanız da mümkündür. SELECT Code AS "Country Code" FROM Country ORDER BY Name kullanarak dönen yanıt içerisinde sonuçlarınızı istediğiniz isimle görebilirsiniz.
+WHERE
+	SELECT Name,Continent,Region FROM Country WHERE Continent = 'Europe' --> sorgusu bizlere Country tablosunda Continent alanı Europe olan kayıtların sadece Name,Continent,Region alanlarını dönecektir.
+	SELECT Name,Continent,Region FROM Country WHERE Continent = 'Europe' ORDER BY Name LIMIT 5 OFFSET 5 --> Burada ise Europe kaydı olan satırlar içerisinde Name alanına göre sıralama yapıp sonrasında ise ilk 5 kaydı aldık. Ancak OFFSET verdiğimiz için kayıtlar sıralandıktan sonraki ilk 5 kaydı görmezden gelmek zorunda kaldık.
+
+Buradaki anahtar kelimelerin sıralanışına dikkat etmemiz gerekmekte.Sırasıyla FROM, WHERE, ORDER, LIMIT, OFFSET olması gerekmekte. 
+Veritabanları arasında değişiklik gösterebilse dahi çoğu operasyonun çalışmama ihtimali olabilir yanlış sıralamalar söz konusu olduğunda.
+
+COUNT
+	SELECT COUNT(*) FROM Country; sorgusu bize Country tablosundaki kayıtların toplam sayısını dönecektir.
+	SELECT COUNT(*) FROM Country WHERE X = 1; sorgusu ise tahmin edebileceğimiz gibi X alanı 1 olan kayıtların sayısını dönecektir.
+	SELECT COUNT(Code) FROM Country; sorgusu ise bize Code alanında veri olan alanları döndürür.
+
+INSERT
+	INSERT INTO customer (name, address, city, state, zip) VALUES ('Fred','Earth','Bedrock','CA','91234'); sorgusu verdiğimiz bilgileri customer isimli tabloya ekler.
+	INSERT INTO customer VALUES ("Velma","Earth","Mystery Inc","USA","00007"); sorgusu customer tablosunda sadece "name, address, city, state, zip" alanlarının bulunması halinde bir satır ekleyecektir.
+	INSERT INTO customer (name,address) VALUES("Scooby","Dog Park"); sorgusu ise city,state,zip alanlarını boş bırakacak şekilde bir kayıt ekleyecektir.
+	INSERT INTO customer DEFAULT VALUES; sorgusu tabloya oluşturulma sırasında atanmış temel değerleri ekleyecektir. Temel değer belirtilmediğinde ise "NULL" değeri atanacaktır.
+	INSERT INTO customer (name, address, city) SELECT name, address, country FROM oldCustomers; sorgusu bizim için oldCustomers tablosundaki değerleri customer tablosuna atayacaktır. 
+		Bu şekilde de SELECT sorgusundan dönen yanıtların INSERT operasyonuna eklenmiş olduğunu görebiliyoruz.
+	
+UPDATE
+	UPDATE customer SET address = 'Mars' WHERE id = 5 ; buradaki sorguda yukarıda bahsedilen primary anahtarlardan yararlanılarak primary anahtarı "5" olan kaydın address alanını "Mars" olarak güncelledik.
+	UPDATE customer SET x=y, h=g, f= NULL WHERE id = 5 ; burada ise özel bir veri olan NULL'u yani hiçliği kullandık ve birden fazla alanı aynı zamanda düzenledik.
+DELETE
+	DELETE FROM customer WHERE id = 5; UPDATE operasyonunda olduğu gibi DELETE operasyonunda da da primary anahtarlardan yararlandık.
+CREATE
+	CREATE TABLE table_name (fieldA INTEGER, fieldT TEXT); bu tarz sorguları parantezler arasında belirttiğimiz tablo şemasına uygun bir biçimde bir veritabanı tablosu oluşturmak için kullanırız.
+DROP
+	DROP TABLE table_name; DROP operasyonu ismi table_name olan belirttiğimiz tipi (table) veritabanından siler.
+	DROP TABLE  IF EXISTS table_name; operasyonu ise tablonun halihazırda var olmaması halinde size hata mesajı ile geri dönüşte bulunmaz.
