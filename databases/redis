@@ -1,0 +1,8 @@
+Redis in-memory, C ile yazılmış, açık kaynak bir veritabanıdır. 
+Bütün verinin bellekte tutulması ve compiled C ile yazılmış olması sebepleri ile diğer veritabanlarından daha hızlıdır.
+Key-value şeklinde işler, tek farkı birden fazla value değeri olabilir. Hafızada tutulan verierin tamamı disk'e de yazılır. Böylece veri kaybı engellenmiş olur.
+HA seçenekli ve distributed yapıda kullanılabilir.
+
+set [key] [value] --> basit komut yaısı
+redis-cli ve redis-server komutları ile redis server başlatılır ve redis'e bağlanılabilir.
+
