@@ -103,3 +103,37 @@ ALTER
 	ALTER TABLE test ADD d TEXT; buradaki sorguda görebiliriz ki burada test tablosuna d alanını ekliyoruz. Burada önceden bulunan kayıtlarda ise 
 		d alanı NULL olarak görülecektir.
 	ALTER TABLE test ADD d TEXT DEFAULT 'panda'; sorgusunda ise d alanı önceden var olan kayıtlara 'panda' değeri ile eklenecektir.
+
+CONDITIONS
+	Koşullandırmalarda dikkat edilmesi gerekmekte.
+	Burada vereceğimiz örnek için elimizde bir "test" tablosu olduğunu düşünelim. test tablosunda a ve b alanları bulunmakta ve iki adet kayıt vardır.
+	------------
+	|  | a | b | Bu şekilde bir tablomuz olması halinde kullanacağımız koşullandırmalar ve sonuçları belirtilen şekillerde olacaktır.
+	------------
+	|1 | 1 | 0 | Koşul 1: CASE a WHEN 1 THEN 'true' ELSE 'false' END CASE b WHEN 1 THEN 'true' ELSE 'false' END ; sorgusu sonuç olarak bu satır için
+	------------			"true" ve "false" sonuçlarını içeren bir satır dönecektir.
+	|2 | 0 | 1 |Koşul 1: CASE WHEN a THEN 'true' ELSE 'false' END CASE WHEN b THEN 'true' ELSE 'false' END ; sorgusu sonuç olarak bu satır için
+	------------			"false" ve "true" sonuçlarını içeren bir satır dönecektir. Yukarıdakinden farkı ise WHEN kullanımıdır.
+		WHEN kullanımında "WHEN a" verildiğinde standart SQL bizim için a alanının 0 olması halinde false değerini üretecektir.
+
+İlişkisel sorgular
+
+JOIN
+	Join işlemini kullanabilmek için birbiri ile ilişkili tabloları bir Venn diagramı şeklinde hayal etmeniz gerekmekte.
+	Bu sırada sağ ve sol tabloyu, kesişimlerini ve farklarını veritabanlarında gösterebileceğimizi unutmayın.
+	left ve right adında iki tablomuz olduğunu ve bu iki tabloda da id ve txt alanlarının olduğunu düşünelim.
+
+	SELECT l.txt, r.txt FROM left AS l JOIN right AS r ON l.id = r.id; Buradaki sorgu left/right tablosunu l/r adı ile düşünerek txt alanını almak için
+		left ve right tablolarındaki id kısımlarının eşit id'lerini alıp bize bu satırlardan left/right tablosuna ait olan txt alanlarını döndürür.
+	SELECT l.txt, r.txt FROM left AS l LEFT JOIN right AS r ON l.id = r.id; Buradaki satırda ise koşulun sağlanmaması halinde dahi bir dönüş sağlanacaktır.
+		Yukarıdakinden farkı ise r.txt olması gereken alanlarda NULL değerini göreceğimizdir.
+
+	SELECT c.name AS Cust, c.zip, i.name AS Item, i.description, s.quantity AS Quan, s.price AS Price
+		FROM sale AS s
+		JOIN item AS i ON s.item_id = i.id
+		JOIN customer AS c ON s.customer_id = c.id
+		ORDER BY Cust, Item;					Buradaki yarı komplex sorguyu inceleyebilirsiniz.
+
+String
+	Veri tiplerinden biri olan String bir karakter dizisi olarak düşünülebilir. String kullanımlarında 
+		platform bazlı değişimler olacaktır. Kullandığınız platformlara göre incelemeniz gerekecektir.
