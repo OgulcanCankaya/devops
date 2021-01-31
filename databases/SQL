@@ -28,16 +28,20 @@ WHERE
 		sadece Name,Continent,Region alanlarını dönecektir.
 	SELECT Name,Continent,Region FROM Country WHERE Continent = 'Europe' ORDER BY Name LIMIT 5 OFFSET 5 --> Burada ise Europe kaydı olan satırlar içerisinde 
 		Name alanına göre sıralama yapıp sonrasında ise ilk 5 kaydı aldık. Ancak OFFSET verdiğimiz için kayıtlar sıralandıktan sonraki ilk 5 kaydı görmezden gelmek zorunda kaldık.
-
-Buradaki anahtar kelimelerin sıralanışına dikkat etmemiz gerekmekte.Sırasıyla FROM, WHERE, ORDER, LIMIT, OFFSET olması gerekmekte. 
-Veritabanları arasında değişiklik gösterebilse dahi çoğu operasyonun çalışmama ihtimali olabilir yanlış sıralamalar söz konusu olduğunda.
-
 ORDER
 	SELECT operasyonu sonucu ortaya çıkan çıktıyı sıralamamız mümkün. Anahtar kelimemiz ORDER BY olacak.
 	SELECT Name FROM Country ORDER BY Name; Ülkeler tablosunu isme göre sıralayarak bize döndürecektir. 
 	SELECT Name FROM Country ORDER BY Name [ASC|DESC]; Artan veya azalan sırada sıralamak için ASC veya DESC kelimelrini kullanıyoruz.
 	SELECT Name,Continent FROM Country ORDER BY Continent DESC, Name; Buradaki sorgumuzda ise ilk olarak kıtalar içerisinde sıralama yapıyor ve kıtaların DESC
 		sıralaması içerisinde ülke isimlerini artan şekilde sıralıyoruz. Artış ve azalış ASCII tablosundaki değerlere göre belirlenmekte.
+
+Buradaki anahtar kelimelerin sıralanışına dikkat etmemiz gerekmekte.Sırasıyla FROM, WHERE, ORDER, LIMIT, OFFSET olması gerekmekte.
+Veritabanları arasında değişiklik gösterebilse dahi çoğu operasyonun çalışmama ihtimali olabilir yanlış sıralamalar söz konusu olduğunda.
+TYPEOF
+	SELECT TYPEOF(1+1); Burada bize dönecek olan yanıt integer olacaktır.
+	SELECT TYPEOF('panda'); Burada ise text.
+	SELECT TYPEOF(1+1.0);Burada ise yanıtımız real olacaktır.
+		Bu değerler veritabanının işletimine bağlı olarak değişebilir veya toplama işlemi text yapısında kullanılabilir.
 COUNT
 	SELECT COUNT(*) FROM Country; sorgusu bize Country tablosundaki kayıtların toplam sayısını dönecektir.
 	SELECT COUNT(*) FROM Country WHERE X = 1; sorgusu ise tahmin edebileceğimiz gibi X alanı 1 olan kayıtların sayısını dönecektir.
@@ -137,3 +141,22 @@ JOIN
 String
 	Veri tiplerinden biri olan String bir karakter dizisi olarak düşünülebilir. String kullanımlarında 
 		platform bazlı değişimler olacaktır. Kullandığınız platformlara göre incelemeniz gerekecektir.
+	SELECT Name, LENGTH(Name) AS Len FROM City ORDER BY Len DESC, Name; Buradaki sorgu bize City tablosundaki Name alanını ve 
+		o alanda bulunan STRING yapısının uzunluklarını verecektir.
+	SELECT SUBSTR('STRING example', N ,M); buradaki sorgu size 6. index sonrasındaki M karakteri döndürecektir. M verimez ise satırın sonuna gidecektir.
+	SELECT TRIM/LTRIM/RTRIM ('  string example  '); Buradaki işlem sonucunda satırın (iki tarafından/solundan/sağından) boşluk karakterlerinin kaldırıldığını görebiliriz.
+	SELECT TRIM ('...EXAMPLE....','.'); Burada ise TRIM metodunu boşluk dışında bir karakteri elimine etmek için kullanıyoruz.
+
+Numeric
+	Integer ve Real tipler ile ilgili incelemeleri yapmamız halinde konunun detaylarına hakimiyet kazanabiliriz.
+	SELECT 1/2; Sonuç 0 olacaktır. Burada integer (tamsayı) bölümü söz konusudur.
+	SELECT 1.0/2; Burada ise 0.5 sonucunu alacağız ve burada real bölümü söz konusudur.
+	SELECT 17/5; Burada sonucumuz 3 olacaktır.
+	SELECT CAST (1 AS REAL) /2 ; Burada ise sonucumuz tekrar 0.5 olacaktır çünkü tamsayı olan 1 değerini real olarak değerlendirdik.
+	SELECT ROUND(2.55555,3); Burada ondalıklı sayıların yuvarlanması örneğini görebiliriz. Sonucumuz 2.556 olacaktır. 3 yerine 0 verilseydi ise sonucumuz 3 olacaktı.
+
+Date and Time
+	SELECT DATETIME('now'); Burada sonucumuz bugünün tarihi ve saati olacaktır. Yıl-Ay-Gün Saat-Dakika-Saniye formatında olacaktır. 
+		Yine de veri tiplerinin veritabanlarına bağlı olarak farklı formatları, syntax yapıları veya metod isimleri olabilir.
+	SELECT DATETIME('now','+1 day'); Burada ise +1 day yazan yere istediğiniz zaman kalıbını vererek şu andan itibaren geçmesi 
+		veya gerilemesini istediğiniz zamanı alabilirsiniz.
