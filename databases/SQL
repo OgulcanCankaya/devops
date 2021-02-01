@@ -160,3 +160,35 @@ Date and Time
 		Yine de veri tiplerinin veritabanlarına bağlı olarak farklı formatları, syntax yapıları veya metod isimleri olabilir.
 	SELECT DATETIME('now','+1 day'); Burada ise +1 day yazan yere istediğiniz zaman kalıbını vererek şu andan itibaren geçmesi 
 		veya gerilemesini istediğiniz zamanı alabilirsiniz.
+
+Aggregates
+	Aggregate data, birden fazla satırdan oluşan kayıt gruplarından toplanan veriler için kullanılır.
+	COUNT metodu bunun için bir örnektir.
+	SELECT Region, COUNT(*) AS Count FROM Country GROUP BY Region ORDER BY Count DESC, Region; şeklindeki sorgu buna bir örnektir.
+	GROUP BY grubundan sonra "HAVING Count > 10"  eklememiz halinde ise sadece Count değeri 10'dan büyük olan kayıt gruplarını göreceğiz.
+	Belirli bir grup içerisinde AVG MIN SUM MAX gibi metodları kullanmak isteyebiliriz. Tabi ki de nümerik değerler için kullanacağımız 
+		bu metodları diğer SELECT veya COUNT metodları ile birleştirmemiz mümkündür.
+	SELECT COUNT(DISTINCT field) FROM table; sorgu kalıbı ile table adındaki tabloda bulunan field isimli alandaki birbrinden farklı 
+		kayıtların sayısına erişebilirsiniz.
+
+Transaction (İşlem)
+	Transaction nedir? Transaction bir veri bütünlüğünü bozan veya değiştiren operasyonlar grubu olarak değerlendirilebilir.
+	Bankacılıktan tutun da, basit veritabanı operasyonlarına kadar verinin bütünlüğünü ve bozulmamasını sağlayan bu yapılanmada
+		akılda tutulması gereken şeyler bulunmaktadır.
+	Transactionlar bir veri grubunun değişimine sebep olacakları için veritabanları tarafından özenle çalıştırılırlar.
+	Bu özen içerisinde bir takım güven problemleri bulunmaktadır. Haklı olduklarını göreceksiniz.
+	Transaction işletilmeye başlanmadan önce veritabanı işlem sonrasında değişim yaşanacak olan tabloya veri girişini engeller.
+	Bu durum aynı anda aynı tabloya işletilmeye çaışılan başka bir işlemin yapılmasını engeller ve eldeki işlemin diğer işlem/ler 
+		tarafından etkilenmesini engeller. Bu durumda işletilen işlemin sonucunun mantıklı olması halinde hesaplanan değişiklikler
+		hafızadan diske yazılır ve değişiklik sağlanan tablonun veri yazma kilidi açılır. Böylece önce gelen işlem yapılmış, aynı tablonun veri bütünlüğü korunmuş olur.
+	Veri tabanlarında genellikle keskin bir şekilde belirlenmiş aynı tabloya aynı anda tek işlem olitikası bulunur. Bu durumun sebebi ise bir örnek ile kolaylıkla anlaşılabilir.
+	Bankacılık işlemleriniz için düşündüğünüzde bankanın veritabanı sizin finansal verilerinizi tutarken hesabınızdaki bakiyenin 500 lira olduğunu düşünün.
+		500 liranız üzerinden 2 farklı cihazdan 2 farklı kişiye 400 lira yollamaya çalıştığınızda eğer hesap işletimler için kitlenmemişse
+		bankaya 300 lira borçlanabilir veya banka paranın takibi için başınızı ağrıtabilir veya para gönderdiğiniz bir kişiden parasını geri almaya çalışabilir.
+		Bu örneğin sadece banka için değil sizin için de yorucu olduğunu farkedebilirsiniz. 
+	Verilen örnekte olduğu gibi onlarca alanda kullanılan veritabanı yönetim sistemlerinde bu tarz tutarsızlıklar yaşanmaması için Transaction yönetim işlemleri yapılır.
+	Farklı tablolarda yapılan işlemlerde ise tek seferde yazma yapılabilmesi ve tabloların uzun süre kapalı kalmaması için işlemler birleştirilebilir. 
+	SQL üzerinde ise BEGIN TRANSACTION, END TRANSACTION, COMMIT, ROLLBACK tanımları ile transaction işlemleri manuel olarak yapılabilir.
+	Performans açısından bakıldığında ayrı ayrı yapılan INSERT UPDATE gibi işlemlerin her birinde bir transaction işlemi açıldığı düşünüldüğünde
+		bu işlemleri BEGIN TRANSACTION  -  -  END TRANCSACTION kalıplarının arasına yerleştirdiğinizde çoklu INSERT-UPDATE işlemleriniz
+		tek bir transaction olarak değerlendirilecek ve hız açısından bir iyileşme sağlanacaktır.
