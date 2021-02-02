@@ -192,3 +192,10 @@ Transaction (İşlem)
 	Performans açısından bakıldığında ayrı ayrı yapılan INSERT UPDATE gibi işlemlerin her birinde bir transaction işlemi açıldığı düşünüldüğünde
 		bu işlemleri BEGIN TRANSACTION  -  -  END TRANCSACTION kalıplarının arasına yerleştirdiğinizde çoklu INSERT-UPDATE işlemleriniz
 		tek bir transaction olarak değerlendirilecek ve hız açısından bir iyileşme sağlanacaktır.
+
+Triggers
+	Trigger işlemleri bir veritabanı işlemi sonrasında gerçekleşen işlemler serisidir. Basitçe kelime anlamı olan tetik kelimesi ile eşdeğer düşünülmesi gayet anlamlıdır.
+	CREATE TRIGGER newSale AFTER INSERT ON Sales BEGIN UPDATE customer SET last_order_id = NEW.id WHERE customer.id = NEW.customer_id; END; buradaki sorguyu okurken NEW
+		anahtarının newSale tablosuna eklenen son kayıt olduğunu düşünmeniz yeterli olacaktır.
+	Trigger kullanarak UPDATE işlemi engellenebilir, bilgi veya veriler güncellenebilir. Bu şekilde verilerin girişinde veya değiştirilmesinde verilere
+		timestamp (zaman damgası) eklenebilir veya kayıt tutulabilir.
