@@ -6,3 +6,9 @@ HA seçenekli ve distributed yapıda kullanılabilir.
 set [key] [value] --> basit komut yaısı
 redis-cli ve redis-server komutları ile redis server başlatılır ve redis'e bağlanılabilir.
 
+Redis kurulumunda izlediğiniz yönteme bağlı olarak komutların yerleri değişebilir ancak,
+
+redis-sentinel -> monitoring ve failover 
+redis-benchmark -> redis performansının ölçümü
+redis-check-aof ve redis-check-rdb -> bozulmuş veri dosyalarının kontrolü
+
