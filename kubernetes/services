@@ -1,0 +1,24 @@
+#Servisler
+
+##Nodeport servis tipi
+
+yml dosyası
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-nodeport-httpd
+spec:
+  type: NodePort
+  ports:
+  - port: 3050
+    targetPort: 80
+    nodePort: 31000
+  selector:
+    app: apache_webserver
+```
+
+NodePort servisleri docker üzerinde çalışan konteynerler gibi konteyner portu ile çalışan makinenin
+fiziksel portu üzerinde oluşturulan bir port köprüsü şeklinde çalışırlar.
+Burada dikkat edilebilecek naçizane nokta NodePort olarak belirlenmiş bir servisin çalışan makinenin
+X portuna bağlanması makinenin X portunu kilitleyecektir. Bu yüzden 30000-60000 arası portlarla sınırlı tutulmaya çalışılmalıdır.
