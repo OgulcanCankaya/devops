@@ -53,7 +53,7 @@ kubectl apply -f xxxx-xxx.yml > komutuyla kubectl'e dosyayı verebiliriz
 `kubectl get pods` komutuyla da çalışan podları görebilriiz
 Bu örnekteki pod'un ip adresini öğrenmek için "kubectl get pods -o wide|yaml"  komutuyla detaylı listeleme yapabiliriz.
 						kubectl describe pods [pod-name]
-Silmek içinse "kubectl delete pods [pod-name]
+Silmek içinse `kubectl delete pods [pod-name]`
 
 Pod içerisindeki bir konteyner üzerinde bir komut çalıştırmak isteyebiliriz. 
 Yardımcımız: kubectl exec [metadata:name] -c [containers:name] -- [çalıştırmak istediğimiz komut] 
