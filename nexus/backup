@@ -1,0 +1,45 @@
+# Nexus Backups
+
+## Nexus portal
+
+Nexus yedekleri için öncelikle nexus-data dizini altındaki blob data store yedeklenmeli.
+Disk üzerindeki paket tanımlama işlemleri burada olacağı için full yedek alınması önemli.
+Bu işlemin öncesinde admin paneli üzerinden database yedeği alınabilir ve blob üzerinde 
+gösterdikleri blob objelerinde null pointer hatası alınması engellenmiş olabilir.
+
+sonatype.com üzerindeki belirli database export işlemi için verilen adımlar:
+
+    Configure the Admin - Export databases for backup Task to export databases.
+    Run the scheduled task to export the databases to the configured folder.
+    Back up custom configurations in your installation and data directories at the same time you run the export task.
+    Back up all blob stores.
+    Store all backed up configurations and exported data together.
+    
+şeklindedir. 
+
+Admin -Export Database task'i için kullanım:
+
+https://help.sonatype.com/repomanager3/backup-and-restore/configure-and-run-the-backup-task
+
+adresinde mevcuttur. Database'in local storage üzerinde olması gerekmektedir.
+
+## Nexus portal export to Restore
+
+sonatype.com üzerinde belirtilen restore aşaması manuel işlemleri desteklemekte ve
+
+    Stop Nexus Repository Manager
+    Remove the following directories from $data-dir/db
+        component
+        config
+        security
+    Go to the location where you stored the exported databases ^
+    Copy the corresponding .bak files to $data-dir/restore-from-backup for restoration (Note: For version 3.10.0 or earlier use $data-dir/backup as the restore location)
+    Restore blob store backup corresponding to the DB backup
+    Restart Nexus Repository Manager
+    Verify NXRM is running correctly
+    Remove .bak files from restore-from-backup directory
+    
+aşamalarını önermektedir.
+
+Blob store restore aşamasının atlanması halinde nexus içerisinde sync hataları ile karşılaşılacaktır.
+BUnu çözmek için ise Admin Task'leri içerisinden  "Repair - Reconcile component database from blob store" task'i çalıştırılmalıdır.
