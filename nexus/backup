@@ -42,4 +42,4 @@ sonatype.com üzerinde belirtilen restore aşaması manuel işlemleri destekleme
 aşamalarını önermektedir.
 
 Blob store restore aşamasının atlanması halinde nexus içerisinde sync hataları ile karşılaşılacaktır.
-BUnu çözmek için ise Admin Task'leri içerisinden  "Repair - Reconcile component database from blob store" task'i çalıştırılmalıdır.
+Bunu çözmek için ise Admin Task'leri içerisinden  "Repair - Reconcile component database from blob store" task'i çalıştırılmalıdır.
