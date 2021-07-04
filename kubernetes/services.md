@@ -1,4 +1,4 @@
-#Servisler
+# Servisler
 
 Servisler uygulamaların "abstract" bir biçimde dış dünyaya suulması için geliştirilmiş bir yapıdır.
 Kubernetes çalıştırdığınız uygulama podlarına kendi IP adresslerini vermekte ve bu IP adresleri üzerinden
@@ -10,7 +10,7 @@ farklı makinelerde bulunabilirler. Böyle bir durum söz konusu olduğunda değ
 network tanımları veya yapılandırmaları yapmanız gerekir. Böylesi bir iş yükünün ortadan kaldırılması için ise 
 servisler ile çalışabiliriz.
 
-##Basit servis tanımı
+### Basit servis tanımı
 
 ```
 apiVersion: v1
@@ -68,9 +68,9 @@ subsets:
 
 _ Bazen servislere olan ihtiyacımız uygulamamızı dünyaya açmak değil, uygulamamızın başka servislerle konuşmasını kolaylaştımak olabilir. (Bknz: ClusterIP) _
 
-##Servisleri sunmak
+## Servisleri sunmak
 
-###ClusterIP servis tipi
+### ClusterIP servis tipi
 
 Bu servis tipi cluster içi erişimi kolaylaştıracak ve servis için, cluster içinde kullanılmak üzere bir IP adresi atayacaktır.
 Servis tipleri içerisinde öntanımlı olarak eklenen servis tipi ClusterIP olarak belirlenmiştir. Nitekim, aksi belirtilmedikçe 
@@ -95,7 +95,7 @@ spec:
   type: ClusterIP
 ```
 
-###Nodeport servis tipi
+### Nodeport servis tipi
 
 yml dosyası
 ```
@@ -119,4 +119,35 @@ Burada dikkat edilebilecek naçizane nokta NodePort olarak belirlenmiş bir serv
 X portuna bağlanması makinenin X portunu kilitleyecektir. Bu yüzden 30000-32767 (default) arası portlarla sınırlı tutulmaya çalışılmalıdır.
 
 NodePort servislerinin ise güzel yanı isteklerimizin nodeIP:nodePort şeklinde kullanılabilir olması ve basit araçlarla (wget, curl, vb.) test edilebilmesidir.
+
+### LoadBalancer Servis Tipi
+
+External veya MetalLB gibi loadbalancer servis kullanan sistemler ve cluster tipleri için kullanılabilen bir servis tipi olan
+LoadBalancer servis tipinde servislerinize IP adresleri tanımlayabilir ve bu dedike IP adresleri üzerinden servislerinizi dış dünyaya açabilirsiniz.
+
+```
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: MyApp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9376
+  clusterIP: 10.0.171.239
+  type: LoadBalancer
+status:
+  loadBalancer:
+    ingress:
+    - ip: 192.0.2.127
+```
+
+Yukarıda verilen yaml dosyasında neler olduğunu artık kolayca anlıyorsunuzdur ancak bahsetmek istediğim bir konu bulunmakta.
+Yukarıdaki konfigürasyon özelinde loadbalancer.ingress.ip alanını, eğer external bir loadBalancer servisiniz varsa doldurmak zorunda değilsiniz.
+
+MetalLB gibi LoadBalancer servisleri ise sizin için IP bloğu üzerinden IP tanımlaması olmayan LoadBalancer tipindeki servislere
+IP ataması yaparak ARP kayıtlarını tetikleyebilir ve Lokal veya mimarinize bağlı olarak external DNS tanımlaması yaparak servislerinize ulaşabilirsiniz.
 

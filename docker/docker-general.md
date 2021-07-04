@@ -1,13 +1,13 @@
-DOCKER
+# DOCKER
 
 Docker temel olarak 3 parçadan oluşan ve uygulama geliştirme,konteynerleştirme ve çalıştırma platformudur.
 
 Temelde Docker Engine yer alır. 
 
-# Daemon Process : Direkt olarak kullanıcı kontrolünde çalışmayan, 
-# arka planda hizmet veren işlemlerdir. Sistem çalışma zamanı boyunca çalışabilirler. 
-# Sistem zamanı boyunca çalışan daemon işlemlere örnek olarak 
-# crond,sshd,httpd ve nfsd işlemleri verilebilir.
+- Daemon Process : Direkt olarak kullanıcı kontrolünde çalışmayan, 
+- arka planda hizmet veren işlemlerdir. Sistem çalışma zamanı boyunca çalışabilirler. 
+- Sistem zamanı boyunca çalışan daemon işlemlere örnek olarak 
+- crond,sshd,httpd ve nfsd işlemleri verilebilir.
 
 Docker engine belli başlı 3 elemandan oluşan bir client-server uygulamasıdır.
 
