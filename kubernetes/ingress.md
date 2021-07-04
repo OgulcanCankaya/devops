@@ -135,7 +135,15 @@ spec:
 ```
 Belirtmem gerekiyor ki, bu örnekler çok temel ve inanıyorum ki işinize çok yarayacaktır.
 
+## IngressController
+
+Bir ingress controller yukarıda da belirttiğimiz üzere ingress tipindeki bir servisin yönetiminde görev alır.
+Bir controller olarak Nginx ve Istio benim ilk sırada verebileceğim örneklerden olacaktır ancak HAproxy için veya 
+Apache konfigürasyonlarına sahip versiyonlar da bulunmaktadır. Konu ile ilgili detaylı bilgi için bu controller servislerin 
+dedike sayfalarını ziyaret etmenizi öneririm.
+
 ### Load Balancing
 
 Yük dengeleme Ingress servisleri için bootstrapped (gömülü) şekilde kullanılmaktadır ancak isteğe bağlı olarak 
 farklı Ingress controller vb. kaynaklar kullanılarak yük dengeleme işlemi yapılabilir ve yük dengeleme protokolleri değiştirilebilir.
+
