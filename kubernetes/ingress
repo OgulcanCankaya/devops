@@ -68,7 +68,6 @@ Domain satın alma işlemlerine değinmeyeceğim ancak eğer daha önce internet
 bir server üzerinden nasıl hizmet verdiğini biliyorsanız buradaki durumu kolayca anlamışsınızdır.
 
 ```
-
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
