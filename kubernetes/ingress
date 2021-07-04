@@ -1,5 +1,7 @@
 #Ingress
 
+![Ingress](./ingress-kubernetes-io.png)
+
 Ingress, kubernetes üzerinde çalışan servislere dışarıdan gelebilecek trafiği yönlendirdiğimiz 
 ve belirli yönlendirme kararları alabildiğimiz yapıdır.
 
