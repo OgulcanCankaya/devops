@@ -1,0 +1,15 @@
+#Rollout
+
+Kubernetes'in rollout alt komutu deployment veya statefulset gibi yapıların önceki versiyonlarına geri dönmemizi, 
+şu anki versiyonu tekrar yüklememizi veya durdurmamızı sağlayabilir.
+
+History, pause, restart, resume, status ve undo alt işlemleri ile deployment'larımızı spesifik bir versiyona indirgeyebilir 
+veya yeniden yükleme gerçekleştirebiliriz.
+
+> kubectl rollout restart deployment <deployment_name> 
+    ile deployment_name adındaki deployment'ı yeniden başlatabilir veya
+
+> kubectl rollout undo deployment <deployment_name> --to-revision=X 
+    ile X numaralı revision'a geri dönebiliriz.
+
+Bu yapısı ile git flow'a yakınlığını görebilirsiniz.
