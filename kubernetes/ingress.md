@@ -1,4 +1,4 @@
-#Ingress
+# Ingress
 
 ![Ingress](./ingress-kubernetes-io.png)
 
@@ -37,7 +37,7 @@ alanıyla karşımızda olacaktı. Burada bulunan tanıma göre cluster üzerine
 Farklı IngressController servisleri için farklı 'annotation' alanları farklı tiplerdeki kubernetes yapılarını tanımlamamız mümkün olacaktır.
 Örnek olarak Istio servisi virtualService ve Gateway tanımlarıyla ve bir LoadBalancer servis ile çalışabilmektedir.
 
-###Host
+### Host
 
 Yukarıda örneği verilen Ingress servisi gelen HTTP trafiğini test isimli servise aktarırken aşağıdaki Ingress tanımının biraz daha farklı 
 davrandığını görebilirsiniz sanırım.
@@ -90,7 +90,7 @@ spec:
 wildcard domain kullanımıdır. Özetle, adana.foo.com veya bursa.foo.com adreslerine gelen HTTP trafiği 
 eğer '/foo' uzantısına sahipse, bu kubernetes cluster'ına gelirse iki adres de service2 tarafından karşılanacak.
 
-###TLS
+### TLS
 
 Bir ingress servisini TLS ile daha güvenli bir hale getirebilirsiniz. Bunun için bir TLS secret'ı tanımlamanız gerekmektedir. 
 TLS secret tanımında TLS için kullandığınız crt ve key dosyanız bulunmalı ve örneklerini internette tonlarca bulabilirsiniz.
@@ -135,7 +135,7 @@ spec:
 ```
 Belirtmem gerekiyor ki, bu örnekler çok temel ve inanıyorum ki işinize çok yarayacaktır.
 
-###Load Balancing
+### Load Balancing
 
 Yük dengeleme Ingress servisleri için bootstrapped (gömülü) şekilde kullanılmaktadır ancak isteğe bağlı olarak 
 farklı Ingress controller vb. kaynaklar kullanılarak yük dengeleme işlemi yapılabilir ve yük dengeleme protokolleri değiştirilebilir.
