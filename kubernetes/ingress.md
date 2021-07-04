@@ -67,6 +67,7 @@ service1 isimli servise aktarıyor. Artık domain'ler de hayatımızın bir par�
 Domain satın alma işlemlerine değinmeyeceğim ancak eğer daha önce internetin nasıl çalıştığını veya bir domain'in 
 bir server üzerinden nasıl hizmet verdiğini biliyorsanız buradaki durumu kolayca anlamışsınızdır.
 
+```
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -83,6 +84,7 @@ spec:
             name: service2
             port:
               number: 80
+```
 
 'kind: Ingress' tanımına sahip bu konfigürasyonda ise birden çok domain tanımı bulunmakta ancak bu durumun sebebi 
 wildcard domain kullanımıdır. Özetle, adana.foo.com veya bursa.foo.com adreslerine gelen HTTP trafiği 
