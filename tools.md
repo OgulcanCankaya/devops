@@ -22,7 +22,7 @@ Build Automation and Continuous Integration
 * Chef - Procedural configuration, write scripts or steps to make the machine come to the desired state | Agent/server based | You have to learn Domain Specific Language
 * Salt - Declarative configuration | Agent/server (minions/master) - but can support agentless | Uses YAML | Has support for event-driven automation
 
-###Virtualization and Containerization
+### Virtualization and Containerization
 
 * VT
   * VMs has an entire OS built into them.
