@@ -15,7 +15,7 @@ Build Automation and Continuous Integration
   * TravisCI - open source | built around Github integration | executes builds in clean VMs
   * Bamboo - enterprised by Atlassian
 
-###Configuration Management
+### Configuration Management
 
 * Ansible - open source | declarative configuration,tool determines what is necessery for the declaration | YAML configuration files | No control server needed,but Ansible tower is available but not required | Does not need agents, just python and ssh
 * Puppet - declarative configuration | manage state through a UI | Custom modules use Puppet DSL | Uses a control server and has agents on clients
