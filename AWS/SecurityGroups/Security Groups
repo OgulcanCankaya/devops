@@ -1,12 +1,25 @@
-SecurityGroup Amazon tarafında kullandığınız servisleriniz için sanal bir firewall (güvenlik duvarı) olarak bulunur. 
-Network trafiğinin inbound (içeri giren) ve outbound (dışarı çıkan) kurallarını belirlemenize yardımcı olur.
+SecurityGroup Amazon tarafında kullandığınız servisleriniz için sanal bir firewall (güvenlik
+duvarı) olarak bulunur.  Network trafiğinin inbound (içeri giren) ve outbound (dışarı çıkan)
+kurallarını belirlemenize yardımcı olur.
 
-EC2 üzerinde bir instance oluşturduğunuzda kullandığınız instance üzerine SecurityGroup tanımlamalarını kurulum sırasında yapabilirsiniz. Öntanımlı olarak SecurityGroup'lar dışarı çıkan tüm trafiğe izin verirler ve içeri gelen bütün trafiği bloke ederler. 
-SecurityGroup kuralları daima izin verir nitelikte, yani whitelist yapısındadır ve port veya protocol bazlı olarak trafiğe izin verirler.
-Nitekim aynı zamanda stateful yapıdalardır ve içeri giren trafiği takip eden cevap izin verilmemiş bir bloğa gidebilir veya içeri girmesine izin verilmeyen bir IP bloğuna istek gönderilerek cevap alınabilir.
-Kural ekleme veya çıkarma işlemlerini istediğiniz zaman yapabilir ve kurallarınızı güncellemenizin ardından değişimleri görebilirsiniz.
-Birden fazla SecurityGroup kullanarak oluşturduğunuz kural seti EC2 tarafında düzenlenerek tek bir SecurityGroup olarak değerlendirilir ve EC2 son oluşturulan SecurityGroup'u trafik denetimi için kullanır.
+EC2 üzerinde bir instance oluşturduğunuzda kullandığınız instance üzerine SecurityGroup
+tanımlamalarını kurulum sırasında yapabilirsiniz. Öntanımlı olarak SecurityGroup'lar dışarı çıkan
+tüm trafiğe izin verirler ve içeri gelen bütün trafiği bloke ederler.  SecurityGroup kuralları
+daima izin verir nitelikte, yani whitelist yapısındadır ve port veya protocol bazlı olarak
+trafiğe izin verirler.  Nitekim aynı zamanda stateful yapıdalardır ve içeri giren trafiği takip
+eden cevap izin verilmemiş bir bloğa gidebilir veya içeri girmesine izin verilmeyen bir IP
+bloğuna istek gönderilerek cevap alınabilir.  Kural ekleme veya çıkarma işlemlerini istediğiniz
+zaman yapabilir ve kurallarınızı güncellemenizin ardından değişimleri görebilirsiniz.  Birden
+fazla SecurityGroup kullanarak oluşturduğunuz kural seti EC2 tarafında düzenlenerek tek bir
+SecurityGroup olarak değerlendirilir ve EC2 son oluşturulan SecurityGroup'u trafik denetimi için
+kullanır.
 
-Kuralları oluştururken kural adını, kuralın tabi tutulduğu protocol ve portu, kaynak ve hedef IP adreslerini belirtebilirsiniz. Son olarak oluşturduğunuz SecurityGroup için bir açıklama yaparak bir çok SecurityGroup'un kullanıldığı senaryolarda kolaylık sağlayabilirsiniz.
-Dikkatli olmanın faydalı olduğu bir nokta ise, aynı port için yazılmış iki kural bulunduğu durumlarda Amazon bu iki kural arasından en permissive (izin veren) kuralı kullanacaktır.
-Örner olarak x.y.z.t IP adresi için belirlenen bir SecurityGroup tanımlamasında 22 portundan gelen istekler A kuralında sadece sizin IP adresiniz için izin verilir şeklinde tanımlanmışken B kural tanımında 0.0.0.0/0 CIDR bloğu şeklinde, herkes tarafından kullanılabilir bir tanım yapılmış olsun. Amazon burada 0.0.0.0/0 tanımını kullanacak ve 22 portunun kullanımını dünyaya açacaktır.
+Kuralları oluştururken kural adını, kuralın tabi tutulduğu protocol ve portu, kaynak ve hedef IP
+adreslerini belirtebilirsiniz. Son olarak oluşturduğunuz SecurityGroup için bir açıklama yaparak
+bir çok SecurityGroup'un kullanıldığı senaryolarda kolaylık sağlayabilirsiniz.  Dikkatli olmanın
+faydalı olduğu bir nokta ise, aynı port için yazılmış iki kural bulunduğu durumlarda Amazon bu
+iki kural arasından en permissive (izin veren) kuralı kullanacaktır.  Örner olarak x.y.z.t IP
+adresi için belirlenen bir SecurityGroup tanımlamasında 22 portundan gelen istekler A kuralında
+sadece sizin IP adresiniz için izin verilir şeklinde tanımlanmışken B kural tanımında 0.0.0.0/0
+CIDR bloğu şeklinde, herkes tarafından kullanılabilir bir tanım yapılmış olsun. Amazon burada
+0.0.0.0/0 tanımını kullanacak ve 22 portunun kullanımını dünyaya açacaktır.
