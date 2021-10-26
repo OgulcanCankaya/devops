@@ -1,0 +1,103 @@
+AUTOMATION
+
+preparing the code for deployment, compile|test|minify while using tools or scripts.
+building the code by taking from git or smt. being indipendent from IDE gives the power of being able to deploy anywhere anytime.
+the machine that the code was built on shouldn't be important
+automation is fast, saves time
+	consistent, everything happens the same. You can see the differences
+	repeatable, repeat it as much as u want, result will be the same
+	portable, do it on any computer,server etc.
+
+developer centric process, important to developers.
+
+
+CI
+
+continuous integration
+instead of merging at the end, automatically test and merge small changes in the code to detect problems on a shorter time and smaller base.
+No need to worry about conflicts.
+You need a CI server to send the change.
+CI server automatically notifies the developers.
+easier to rollback or detect the bug
+pros- 
+early detection|sooner the detection easier the fix
+eliminate the scramble|no need to merge a big change or code base
+frequent releases|it is POSSIBLE
+continuous testing
+good coding practices
+
+Continuous Delivery and Deployment
+
+1-maintaining the code in a deployable scale|it does not matter if it is going to be deployed
+2-constantly deploying small changes
+What happens -> builds,testing,acceptence testing
+we can rollback before anyone notices
+easy to deploy a hotfix
+faster time to market
+fever deployment process problems
+lower risk of sudden big changes
+reliable rollbacks-> u know the earlier version was safe
+deploy everyday, small steps but every day
+
+IaC -> infrastructure as Code
+
+use automation and code to create and change servers,instances, containers or environments etc.
+without iac ssh-manually issue codes | with iac change configs-source control takes them-auto tool enacts the changes
+once it works it always works | once u use it u can use it anytime | scalable | infrastructure will be self-documented| simplified complexity of xxx(db,conf,etc.) servers
+-ansible-
+
+Conf management
+
+maintaining and changing the state of pieces of infra. in a maintainable way
+configuration drift-small changes accumulate over time and the server changes greatly over time as well
+u manage the conf files outside of the server
+saves time| insightful | maintainable | less conf drift | 
+
+Orchestration
+
+automation that supports processes and workflows
+
+Monitoring
+
+collecting and presenting data about the perf. of the services and servers
+memory,cpu,disk io, network, app logs, other resources
+use chart,graph doesnt matter.
+real time notifications of performance change
+post-mortem analysis | something went wrong - find out what is it  
+root cause analysis | finding the root cause may fix more problems then u think
+also help developers 
+automated response-graylog service can do that
+
+Microservices
+a software architecture - bunu da bil artık
+divide and conquer 
+a program is divided into small parts that can work stand alone
+instead of going monolith when we divide the program we can find problems easily
+The part that causes problems can be fixed without deactivating the other parts
+Functional components that builds the application can communicate with each other but since they are seperated it will be easier to keep serving with the other parts of the application while solving the problem on a small part of the app.
+We can use a service with a better performanced server while serving the rest on a small server.
+this not the best al the time, smaller the app-better the monolith
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,40 @@
+Yazılım geliştirmenin "devamlı" metodolojileri  aslen süreçleri betikler ile  ve elle yazılmış ancak otomatize çalışan programlarla kullanmaktan ibarettir.
+CI 
+Github üzerinden kaynak kodu olan bir projeden örnek verecek olursak eğer gün içinde birden fazla sayıda commit alan bir projede her commit sonrası projenin 
+test edilmesi ve kontrollere tabii tutulması zor olacaktir.
+Repoya yapılan her push sonrası betikler yardımıyla projenin build ve test işlemlerini otomatize edebiliriz. Her değişimde bu işlemlerin yapılması CI olarak düşünülebilir.
+CD(Delivery)
+CI'dan sonraki adım olarak testleri başarı ile tamamlayan build'ler deploy edilir. Manuel olarak dahi olsa bu adımın önemi insan etkileşiminin projenin canlı aşamada gerçekleşmesi için elzemdir.
+CD(Deployment)
+Manuel deploy yerine başarılı testlerin sonucunda ortaya çıkan projenin canlı'ya otomatik olarak alınmasıdır.
+
+Gitlab CI/CD
+Bir git reposunda tutulan projelerin CI/CD aşamalarına entegrasyonu için gerekli olan şey bir .gitlab-ci.yml dosyasıdır. Burada test-build aşamaları içi gerekli adımları belirtebiliriz.
+
+Belirli bir sıralama vererek ortamı düzenleyebilir, nerede hangi testi gerçekleştirebileceğinizi belirtebilirsiniz.
+
+Minimal örnek:
+
+before_script:
+  - apt-get install rubygems ruby-dev -y
+
+run-test:
+  script:
+    - ruby --version
+
+before_script tanımlaması dependency kurmak için programın çalıştırılmazından önce kullanılır.
+run-test bir "job" olarak işlem çıktıları da verilen bir iş yaratır.
+
+Gitlab CI/CD aynı zamanda bir terminal ekran da sunacaktır.
+Test sonuçları da projelere/repolara bağlı olarak GUI üzerinde gösterilebilir.
+Ters giden şeyler olması durumunda rollback işlemi kolayca yapılabilir.
+
+Yaratılan pipeline git push sonrasında tetiklenebilir.
+
+Workflow şu sıralmada işleyebilir.
+Yeni branch oluştur - brach'e code push - CI - sonuçların onayı - Master'a merge - Deploy
+
+
+
+
+
