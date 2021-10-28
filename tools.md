@@ -1,4 +1,4 @@
-###Identify the tools and learn how to use them.
+### Identify the tools and learn how to use them.
 *There is no such thing as The Best Tools.*
 
 https://digital.ai/periodic-table-of-devops-tools - Check It!!
@@ -15,14 +15,14 @@ Build Automation and Continuous Integration
   * TravisCI - open source | built around Github integration | executes builds in clean VMs
   * Bamboo - enterprised by Atlassian
 
-###Configuration Management
+### Configuration Management
 
 * Ansible - open source | declarative configuration,tool determines what is necessery for the declaration | YAML configuration files | No control server needed,but Ansible tower is available but not required | Does not need agents, just python and ssh
 * Puppet - declarative configuration | manage state through a UI | Custom modules use Puppet DSL | Uses a control server and has agents on clients
 * Chef - Procedural configuration, write scripts or steps to make the machine come to the desired state | Agent/server based | You have to learn Domain Specific Language
 * Salt - Declarative configuration | Agent/server (minions/master) - but can support agentless | Uses YAML | Has support for event-driven automation
 
-###Virtualization and Containerization
+### Virtualization and Containerization
 
 * VT
   * VMs has an entire OS built into them.
@@ -32,7 +32,7 @@ Build Automation and Continuous Integration
   * Docker 
 They are portable.
 
-###Monitoring
+### Monitoring
 
 {ELK,Beats-ElasticSearch-LogStash-Kibana}
 
