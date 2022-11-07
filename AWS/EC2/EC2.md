@@ -26,19 +26,19 @@ AWS üzerinde login olduğunuzda ya arama kısmından ya da önerilen servisler 
 ![EC2-1](./ec2-1.PNG)
 
 Sayfanın sol tarafı şekildeki gibi olacaktır. Alt kısımda yer alan "Launch instance" butonu ile ilk On-demand ünitenizi oluşturabilirsiniz.
-![EC2-2](./ec2-2.png)
+![EC2-2](./ec2-2.PNG)
 
 Butona tıklayalım ve devam edelim. Amazon Machine Image bizim için Amazon tarafından özelleştirilmiş işletim sistemi imajlarından oluşan bir listeden istediğimiz imajı seçmemize olanak sağlar. Burada genellikle ilk tercih bildiğimiz bir dağıtım olacaktır ancak battı balık diyip Amazon Linux 2 imajını seçebilirsiniz.
-![EC2-3](./ec2-3.png)
+![EC2-3](./ec2-3.PNG)
 
 Instance type seçimine ilerlediğimizde görüyoruz ki daha önce bahsettiğim CPU ve RAM kombinasyonlarından, "Instance family" başlığı altındaki özelleştirmelere kadar bir çok kombinasyon bulunmakta. Tabii ki "Free Tier eligible" etiketi olan 1 vCPU ve 1GB RAM sahibi T serisi 2. nesil micro üniteyi seçiyoruz. Önceki cümlede "T serisi 2. nesil" dememin sebebi Amazon'un ünitelerini kullanım tarzlarına göre bölerken genellikle tek harfli kodlar kullanması ve jenerasyonları sayı ile göstererek ilerlemesi. Bu küçük bilgi de belki ileride işimize yarar :)
-![EC2-4](./ec2-4.png)
+![EC2-4](./ec2-4.PNG)
 
 Hemen ardından, henüz VPC veya SecurityGroups konusuna değinmediğimiz için sağ alttaki "Review and Launch" butonuna basıyoruz ve sunucu bağlantısı için ufak bir pop up çıkıyor. Burada sunucu erişimi için bir pem dosyası oluşturabilir veya dosya kullanmamayı seçebilirsiniz. Amazon ünitenize bağlanmak ve ssh anahtarı eklemek için size bir web arayüzü vererek terminal erişimi sağlayabilmektedir.
-![EC2-5](./ec2-5.png)
+![EC2-5](./ec2-5.PNG)
 
 Ve büyük finalde eski ünitemin hemen altında yeni bir ünite can buluyor ve "Initializing" durumunda olduğunu görebiliyoruz. 
-![EC2-6](./ec2-6.png)
+![EC2-6](./ec2-6.PNG)
 
 Initializing durumundan Running durumuna geçmesi yaklaşık 1 dakika süren bu ünitenin kurulum kararları da yaklaşık 1 dakika sürmüştü. Bu durumda artık "Sanal makine kurmak ve kullanmak 2 dakikalık iş" desem yalan söylemiş olmam.
 
