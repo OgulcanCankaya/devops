@@ -23,7 +23,7 @@ EC2 üniteleri (instances) 4 farklı tipi (ödeme metodu) ile erişilebilir hald
 ## Aman aman hemen Free Tier bakalım !
 
 AWS üzerinde login olduğunuzda ya arama kısmından ya da önerilen servisler listesinden EC2 servisini seçin.
-![EC2-1](./ec2-1.png)
+![EC2-1](./ec2-1.PNG)
 
 Sayfanın sol tarafı şekildeki gibi olacaktır. Alt kısımda yer alan "Launch instance" butonu ile ilk On-demand ünitenizi oluşturabilirsiniz.
 ![EC2-2](./ec2-2.png)
